@@ -1,0 +1,66 @@
+#include <stdio.h>
+#include <iostream>
+using namespace std;
+
+class Thermometer
+{
+    public:
+    virtual int read() = 0;
+};
+class IO_Channel_Thermo:public Thermometer
+{
+    private:
+    int temp;
+    
+    public:
+    int read()
+    {
+        temp= 30;
+        return temp;
+    }
+    
+};
+
+class Heater
+{
+    public:
+    virtual void engage() = 0;
+    virtual void disengage() =0;
+};
+class IO_Channel_Heater:public Heater
+{
+    public:
+    void  engage()
+    {
+       cout << " heater engage\n";
+    }
+    
+       void  disengage()
+    {
+       cout << " heater disengage\n";
+    }
+};
+
+void regulate(Thermometer * t, Heater * h , int minTemp, int maxTemp)
+{
+   
+        if (t->read() > minTemp)
+        {
+            h->engage();
+        }
+        if (t->read() < maxTemp)
+        {
+            h->disengage();
+        }
+        
+}
+int main()
+{
+    Thermometer*  t = new IO_Channel_Thermo;
+    Heater* h = new IO_Channel_Heater;
+    regulate( t,  h , 32, 40);
+    
+    printf("Hello World");
+
+    return 0;
+}
